@@ -37,12 +37,12 @@ import { useState } from 'react';
           .filter((t) => t.type === type)
           .reduce((sum, t) => sum + t.amount, 0);
     
-        if (type === 'expense') {
+        if (type === 'expense' || type === 'income') {
           const currentMonth = filterMonth === 'all' ? new Date().getMonth() + 1 : parseInt(filterMonth);
           const currentYear = filterYear === 'all' ? new Date().getFullYear() : parseInt(filterYear);
     
           fixedCosts.forEach(cost => {
-            if (cost.isRecurring) {
+             if (cost.type === type && cost.isRecurring) {
               let costDate = new Date(cost.startDate);
               while (isBefore(costDate, new Date(currentYear, currentMonth - 1, 1))) {
                 costDate = addMonths(costDate, 1);

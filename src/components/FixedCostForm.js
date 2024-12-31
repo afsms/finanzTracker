@@ -7,6 +7,7 @@ import { useState } from 'react';
       const [startDate, setStartDate] = useState('');
       const [isRecurring, setIsRecurring] = useState(false);
       const [endDate, setEndDate] = useState('');
+      const [type, setType] = useState('expense');
       const [category, setCategory] = useState(categories.expense[0]?.id);
     
       const handleSubmit = (e) => {
@@ -19,6 +20,7 @@ import { useState } from 'react';
           startDate,
           isRecurring,
           endDate,
+          type,
           category
         });
         setName('');
@@ -32,6 +34,17 @@ import { useState } from 'react';
       return (
         <form onSubmit={handleSubmit} className="mb-4 p-4 border rounded shadow">
           <h2 className="text-xl font-bold mb-4">Neue Fixkosten</h2>
+           <div className="mb-2">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Typ:</label>
+            <select
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option value="income">Einnahme</option>
+              <option value="expense">Ausgabe</option>
+            </select>
+          </div>
           <div className="mb-2">
             <label className="block text-gray-700 text-sm font-bold mb-2">Name:</label>
             <input
@@ -50,14 +63,14 @@ import { useState } from 'react';
               className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
-          <div className="mb-2">
+           <div className="mb-2">
             <label className="block text-gray-700 text-sm font-bold mb-2">Kategorie:</label>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               className="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             >
-              {categories.expense?.map((cat) => (
+              {categories[type]?.map((cat) => (
                 <option key={cat.id} value={cat.id}>
                   {cat.name}
                 </option>
